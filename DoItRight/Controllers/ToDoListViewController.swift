@@ -10,16 +10,40 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
 
-  var itemArray = ["TODO1", "TODO2", "TODO3"]
+//  var itemArray = ["TODO1", "TODO2", "TODO3"]
+  
+  var itemArray = [Item]()
+  
+  
+  
   let defaults = UserDefaults.standard
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
-    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [String]{
-      itemArray = safeItemArray
-      
+
+    let newItem = Item()
+    newItem.title = "TODO11"
+    itemArray.append(newItem)
+    
+    
+    let newItem2 = Item()
+      newItem2.title = "TODO22"
+      itemArray.append(newItem2)
+    
+    let newItem3 = Item()
+      newItem3.title = "TODO33"
+      itemArray.append(newItem3)
+    
+    
+    
+    print(itemArray)
+    
+    
+    
+    //    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [String]{
+//      itemArray = safeItemArray
+//
       
     }
 
@@ -36,7 +60,7 @@ class ToDoListViewController: UITableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
 // indexPath contains SectionNumber and RowNumber
 //    print(indexPath.row)
-    cell.textLabel?.text = itemArray[indexPath.row]
+    cell.textLabel?.text = itemArray[indexPath.row].title
     return cell
   }
   
