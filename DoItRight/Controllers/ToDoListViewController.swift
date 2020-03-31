@@ -9,46 +9,50 @@
 import UIKit
 
 class ToDoListViewController: UITableViewController {
-
-//  var itemArray = ["TODO1", "TODO2", "TODO3"]
+  
+  //  var itemArray = ["TODO1", "TODO2", "TODO3"]
   
   var itemArray = [Item]()
   
   
   
   let defaults = UserDefaults.standard
-  
+      let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    // Filemager - interface for filesystem
 
+    
+    print(dataFilePath)
+    
     let newItem = Item()
     newItem.title = "TODO11"
     itemArray.append(newItem)
     
     
     let newItem2 = Item()
-      newItem2.title = "TODO22"
-      itemArray.append(newItem2)
+    newItem2.title = "TODO22"
+    itemArray.append(newItem2)
     
     let newItem3 = Item()
-      newItem3.title = "TODO33"
-      itemArray.append(newItem3)
+    newItem3.title = "TODO33"
+    itemArray.append(newItem3)
     
     
     
     print(itemArray)
     
     
-    
-    //    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [String]{
+    // retrieve array from "defaults" memory
+//    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [Item]{
 //      itemArray = safeItemArray
-//
-      
-    }
-
+//    }
+    
+    
+    
   }
-//MARK: - TableView DataSource Methods
+  //MARK: - TableView DataSource Methods
   
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,27 +61,35 @@ class ToDoListViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
+    //    Not doing it because it creates a new cell when the exisitng cell is out of screen view
+    //    let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
+    
     let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-// indexPath contains SectionNumber and RowNumber
-//    print(indexPath.row)
-    cell.textLabel?.text = itemArray[indexPath.row].title
+    // indexPath contains SectionNumber and RowNumber
+    //    print(indexPath.row)
+    
+    let item = itemArray[indexPath.row]
+    cell.textLabel?.text = item.title
+    
+    // value = condition ? valuetrue : valuefalse
+    
+    cell.accessoryType = item.done ? .checkmark : .none
+    
     return cell
   }
   
   
-//MARK: - TableView Delegate Method
+  //MARK: - TableView Delegate Method
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     print(itemArray[indexPath.row])
-  
     
-    if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-      tableView.cellForRow(at: indexPath)?.accessoryType = .none
-    } else {
-      
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-    }
+    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+    
+    saveItems()
+    
+    self.tableView.reloadData()
     
     
     tableView.deselectRow(at: indexPath, animated: true)
@@ -99,12 +111,15 @@ class ToDoListViewController: UITableViewController {
     
     let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
       // user clicked
-      print(textField.text)
       
-      self.itemArray.append(textField.text!)
+      let newItem = Item()
+      newItem.title = textField.text!
       
-      self.defaults.set(self.itemArray, forKey: "TodoListArray")
+      self.itemArray.append(newItem)
       
+//      self.defaults.set(self.itemArray, forKey: "TodoListArray")
+
+      self.saveItems()
       
       
       self.tableView.reloadData()
@@ -118,6 +133,24 @@ class ToDoListViewController: UITableViewController {
     
     
     present(alert, animated: true, completion: nil)
+    
+  }
+  
+  
+  
+  func saveItems(){
+    // Working with local files
+    let encoder = PropertyListEncoder()
+    
+    do{
+      // encoding out data into a property list
+      let data = try encoder.encode(itemArray)
+      try data.write(to: dataFilePath!)
+    }catch{
+      print("Error: ", error)
+      
+    }
+    
     
   }
   

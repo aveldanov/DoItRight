@@ -8,8 +8,8 @@
 
 import Foundation
 
-
-class Item {
+// to conform to Codable protocol - all variables should be a standard class like - String, Bool etc
+class Item: Codable {
   var title: String = ""
   var done: Bool = false
   
