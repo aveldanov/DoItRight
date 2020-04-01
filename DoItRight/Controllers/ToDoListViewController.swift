@@ -25,21 +25,7 @@ class ToDoListViewController: UITableViewController {
 
     
     print(dataFilePath)
-    
-    let newItem = Item()
-    newItem.title = "TODO11"
-    itemArray.append(newItem)
-    
-    
-    let newItem2 = Item()
-    newItem2.title = "TODO22"
-    itemArray.append(newItem2)
-    
-    let newItem3 = Item()
-    newItem3.title = "TODO33"
-    itemArray.append(newItem3)
-    
-    
+  
     
     print(itemArray)
     
@@ -49,6 +35,9 @@ class ToDoListViewController: UITableViewController {
 //      itemArray = safeItemArray
 //    }
     
+    
+    // FileManager
+    loadItems()
     
     
   }
@@ -153,6 +142,25 @@ class ToDoListViewController: UITableViewController {
     
     
   }
+  
+  
+  func loadItems(){
+    
+    if let data = try? Data(contentsOf: dataFilePath!){
+      let decoder = PropertyListDecoder()
+      
+      do{
+        itemArray = try decoder.decode([Item].self, from: data)
+
+      }catch{
+        print(error)
+      }
+      
+    }
+    
+  }
+  
+
   
   
 }
