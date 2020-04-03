@@ -24,7 +24,7 @@ class ToDoListViewController: UITableViewController {
     // Filemager - interface for filesystem
 
   
-    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+//    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     
     
     // retrieve array from "defaults" memory
@@ -34,7 +34,7 @@ class ToDoListViewController: UITableViewController {
     
     
     // FileManager
-//    loadItems()
+    loadItems()
     
     
   }
@@ -69,9 +69,12 @@ class ToDoListViewController: UITableViewController {
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print(itemArray[indexPath.row])
+//    print(itemArray[indexPath.row])
+    //Deleting items
+//    context.delete(itemArray[indexPath.row])
+//    itemArray.remove(at: indexPath.row)
     
-    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+//    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
     
     saveItems()
     
@@ -150,21 +153,19 @@ class ToDoListViewController: UITableViewController {
   }
   
   
-//  func loadItems(){
-//
-//    if let data = try? Data(contentsOf: dataFilePath!){
-//      let decoder = PropertyListDecoder()
-//
-//      do{
-//        itemArray = try decoder.decode([Item].self, from: data)
-//
-//      }catch{
-//        print(error)
-//      }
-//
-//    }
-//
-//  }
+  func loadItems(){
+
+    let request : NSFetchRequest<Item> = Item.fetchRequest()
+
+    do{
+      
+     itemArray = try context.fetch(request)
+
+    }catch{
+      print(error)
+    }
+
+  }
   
 
   
