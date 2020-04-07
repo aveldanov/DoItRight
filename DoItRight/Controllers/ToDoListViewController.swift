@@ -89,8 +89,6 @@ class ToDoListViewController: UITableViewController, UISearchBarDelegate {
   //MARK: - Add a new item
   
   
-  
-  
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
     
     var textField = UITextField()
