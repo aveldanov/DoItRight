@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ToDoListViewController: UITableViewController, UISearchBarDelegate {
+class ToDoListViewController: UITableViewController {
   
   //  var itemArray = ["TODO1", "TODO2", "TODO3"]
   
@@ -21,6 +21,7 @@ class ToDoListViewController: UITableViewController, UISearchBarDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     
     // Filemager - interface for filesystem
 
@@ -166,10 +167,19 @@ class ToDoListViewController: UITableViewController, UISearchBarDelegate {
 
   }
   
-  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    <#code#>
-  }
   
+  
+}
+
+
+//MARK: - Search Bar Methods
+
+extension ToDoListViewController: UISearchBarDelegate{
+  
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    let request : NSFetchRequest<Item> = Item.fetchRequest()
+    print(searchBar.text)
+  }
   
 }
 
