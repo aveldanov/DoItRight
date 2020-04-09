@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CategoryViewController: UITableViewController {
 
@@ -16,11 +17,27 @@ class CategoryViewController: UITableViewController {
     }
 
   
-  
-  
+  //MARK: - TableView DataSource Methods
 
+  //MARK: - Data manipulation methods
+
+  
+  //MARK: - add new category
+  
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
   }
   
-
+  
+  
+//MARK: - TableView delegate methods
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
