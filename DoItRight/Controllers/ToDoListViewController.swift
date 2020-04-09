@@ -165,6 +165,8 @@ class ToDoListViewController: UITableViewController {
       print(error)
     }
     
+    tableView.reloadData()
+    
   }
   
   
