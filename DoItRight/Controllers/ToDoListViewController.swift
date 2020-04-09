@@ -14,8 +14,8 @@ class ToDoListViewController: UITableViewController {
   //  var itemArray = ["TODO1", "TODO2", "TODO3"]
   
   var itemArray = [Item]()
-
-
+  
+  
   // context temporary store for data before it is saved in Database
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
   
@@ -24,18 +24,18 @@ class ToDoListViewController: UITableViewController {
     
     
     // Filemager - interface for filesystem
-
-  
-//    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+    
+    
+    //    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     
     
     // retrieve array from "defaults" memory
-//    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [Item]{
-//      itemArray = safeItemArray
-//    }
+    //    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [Item]{
+    //      itemArray = safeItemArray
+    //    }
     
     
-    // FileManager
+    // FileManager -> initiated request
     loadItems()
     
     
@@ -71,12 +71,12 @@ class ToDoListViewController: UITableViewController {
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    print(itemArray[indexPath.row])
+    //    print(itemArray[indexPath.row])
     //Deleting items
-//    context.delete(itemArray[indexPath.row])
-//    itemArray.remove(at: indexPath.row)
+    //    context.delete(itemArray[indexPath.row])
+    //    itemArray.remove(at: indexPath.row)
     
-//    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+    //    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
     
     saveItems()
     
@@ -101,8 +101,8 @@ class ToDoListViewController: UITableViewController {
     let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
       // user clicked
       
-
-    
+      
+      
       let newItem = Item(context: self.context)
       
       
@@ -112,8 +112,8 @@ class ToDoListViewController: UITableViewController {
       
       self.itemArray.append(newItem)
       
-//      self.defaults.set(self.itemArray, forKey: "TodoListArray")
-
+      //      self.defaults.set(self.itemArray, forKey: "TodoListArray")
+      
       self.saveItems()
       
       
@@ -139,8 +139,8 @@ class ToDoListViewController: UITableViewController {
     
     do{
       // encoding out data into a property list
-//      let data = try encoder.encode(itemArray)
-//      try data.write(to: dataFilePath!)
+      //      let data = try encoder.encode(itemArray)
+      //      try data.write(to: dataFilePath!)
       
       try context.save()
       
@@ -153,18 +153,18 @@ class ToDoListViewController: UITableViewController {
   }
   
   
-  func loadItems(){
-
-    let request : NSFetchRequest<Item> = Item.fetchRequest()
-
+  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()){
+    
+    //    let request : NSFetchRequest<Item> = Item.fetchRequest()
+    
     do{
       
-     itemArray = try context.fetch(request)
-
+      itemArray = try context.fetch(request)
+      
     }catch{
       print(error)
     }
-
+    
   }
   
   
@@ -178,7 +178,39 @@ extension ToDoListViewController: UISearchBarDelegate{
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     let request : NSFetchRequest<Item> = Item.fetchRequest()
-    print(searchBar.text)
+    //    print(searchBar.text!)
+    // look for the "title" that "CONTAINS" ...
+    // %@ will be replaced with - searchBar.text data
+    // [cd] - makes case/special symbols non-sesitive
+    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+    
+    //sort by title
+    request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)] // as it expects an array
+    
+    
+    loadItems(with: request)
+    
+    
+    //    do{
+    //     itemArray = try context.fetch(request)
+    //    }catch{
+    //      print(error)
+    //    }
+    //
+    //    tableView.reloadData()
+    
+  }
+  
+  // SearchBar Text Change - listener
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchBar.text?.count == 0{
+      loadItems()
+      
+      DispatchQueue.main.async {
+              searchBar.resignFirstResponder()
+      }
+    }
   }
   
 }
