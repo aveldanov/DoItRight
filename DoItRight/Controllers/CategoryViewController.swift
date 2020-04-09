@@ -16,7 +16,7 @@ class CategoryViewController: UITableViewController {
 
     }
 
-  
+
   
   //MARK: - TableView DataSource Methods
 
