@@ -42,6 +42,31 @@ class CategoryViewController: UITableViewController {
   
   
   
+  
+  //MARK: - TableView delegate methods
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToItems", sender: self)
+
+  }
+  
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let destinationVC = segue.destination as! ToDoListViewController
+    // indexPath for selected row
+    if let indexPath = tableView.indexPathForSelectedRow{
+      
+      destinationVC.selectedCategory = categoryArray[indexPath.row]
+      
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
   //MARK: - Data manipulation methods (Save/Load)
   
   func saveCategories(){
@@ -53,14 +78,14 @@ class CategoryViewController: UITableViewController {
     }
     
     tableView.reloadData()
-
+    
   }
   
   
   
   func loadCategories(){
     
-        let request : NSFetchRequest<Category> = Category.fetchRequest()
+    let request : NSFetchRequest<Category> = Category.fetchRequest()
     
     do{
       
@@ -99,7 +124,7 @@ class CategoryViewController: UITableViewController {
       self.saveCategories()
       
       
-//      self.tableView.reloadData()
+      //      self.tableView.reloadData()
       
     }
     
@@ -115,10 +140,6 @@ class CategoryViewController: UITableViewController {
     
     
   }
-  
-  
-  
-  //MARK: - TableView delegate methods
   
   
   

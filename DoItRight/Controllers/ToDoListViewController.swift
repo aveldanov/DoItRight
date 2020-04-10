@@ -15,6 +15,17 @@ class ToDoListViewController: UITableViewController {
   
   var itemArray = [Item]()
   
+  var selectedCategory: Category?
+  
+  {
+
+    // works only if selectedCategory is assigned a value
+    didSet{
+
+      loadItems()
+    }
+  }
+  
   
   // context temporary store for data before it is saved in Database
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -36,8 +47,6 @@ class ToDoListViewController: UITableViewController {
     
     
     // FileManager -> initiated request
-    loadItems()
-    
     
   }
   //MARK: - TableView DataSource Methods
@@ -104,12 +113,11 @@ class ToDoListViewController: UITableViewController {
       
       
       let newItem = Item(context: self.context)
-      
-      
-      
       newItem.title = textField.text!
       newItem.done = false
+      //NEW because of category
       
+      newItem.parentCategory = self.selectedCategory
       self.itemArray.append(newItem)
       
       //      self.defaults.set(self.itemArray, forKey: "TodoListArray")
@@ -153,9 +161,24 @@ class ToDoListViewController: UITableViewController {
   }
   
   
-  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()){
+  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
     
     //    let request : NSFetchRequest<Item> = Item.fetchRequest()
+    let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+    
+    if let additionalPredicate = predicate{
+      
+      request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+    }else{
+      
+      request.predicate = categoryPredicate
+      
+      
+    }
+    
+//    let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])
+//
+//    request.predicate = compoundPredicate
     
     do{
       
@@ -184,13 +207,13 @@ extension ToDoListViewController: UISearchBarDelegate{
     // look for the "title" that "CONTAINS" ...
     // %@ will be replaced with - searchBar.text data
     // [cd] - makes case/special symbols non-sesitive
-    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+    let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
     
     //sort by title
     request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)] // as it expects an array
     
     
-    loadItems(with: request)
+    loadItems(with: request, predicate: predicate)
     
     
     //    do{
