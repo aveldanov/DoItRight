@@ -135,7 +135,7 @@ class ToDoListViewController: UITableViewController {
   
   func saveItems(){
     // Working with local files
-    let encoder = PropertyListEncoder()
+//    let encoder = PropertyListEncoder()
     
     do{
       // encoding out data into a property list
