@@ -57,7 +57,7 @@ class CategoryViewController: UITableViewController {
     // indexPath for selected row
     if let indexPath = tableView.indexPathForSelectedRow{
       
-//      destinationVC.selectedCategory = categoryArray?[indexPath.row]
+      destinationVC.selectedCategory = categoryArray?[indexPath.row]
       
     }
   }

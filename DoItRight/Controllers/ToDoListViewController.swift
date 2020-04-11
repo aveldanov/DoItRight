@@ -82,18 +82,23 @@ class ToDoListViewController: UITableViewController {
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //    print(itemArray[indexPath.row])
-    //Deleting items
-    //    context.delete(itemArray[indexPath.row])
-    //    itemArray.remove(at: indexPath.row)
+
+    if let item = todoItems?[indexPath.row]{
+      do{
+        try realm.write{
+           item.done = !item.done
+         }
+         
+        
+      }catch{
+        
+        print("Error didSelectAt - done status", error)
+      }
+ 
+    }
     
-    //    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-    
-//    saveItems()
-    
-    self.tableView.reloadData()
-    
-    
+    tableView.reloadData()
+ 
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
@@ -111,23 +116,24 @@ class ToDoListViewController: UITableViewController {
     
     let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
       // user clicked
-      
-      
-      
-//      let newItem = Item(context: self.context)
-//      newItem.title = textField.text!
-//      newItem.done = false
-      //NEW because of category
-      
-//      newItem.parentCategory = self.selectedCategory
-//      self.itemArray.append(newItem)
-      
-      //      self.defaults.set(self.itemArray, forKey: "TodoListArray")
-      
-    
-      self.saveItems()
-      
-      
+      print(self.selectedCategory ?? "No CAT")
+      if let currentCategory = self.selectedCategory{
+        print(currentCategory)
+        do{
+          try self.realm.write{
+            let newItem = Item()
+            print(newItem)
+             newItem.title = textField.text!
+            currentCategory.items.append(newItem)
+          }
+        }catch{
+          print("Error saving Items: \(error)")
+          
+        }
+
+        
+      }
+
       self.tableView.reloadData()
       
     }
