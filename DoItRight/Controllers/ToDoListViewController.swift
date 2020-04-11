@@ -86,7 +86,9 @@ class ToDoListViewController: UITableViewController {
     if let item = todoItems?[indexPath.row]{
       do{
         try realm.write{
-           item.done = !item.done
+          
+          realm.delete(item)
+//           item.done = !item.done
          }
          
         
