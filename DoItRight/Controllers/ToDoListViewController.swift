@@ -87,7 +87,7 @@ class ToDoListViewController: UITableViewController {
       do{
         try realm.write{
           
-//          realm.delete(item) - DELETE OPTION 
+//          realm.delete(item) - DELETE OPTION
            item.done = !item.done
          }
          
@@ -171,45 +171,30 @@ class ToDoListViewController: UITableViewController {
 
 
 //MARK: - Search Bar Methods
-//
-//extension ToDoListViewController: UISearchBarDelegate{
-//
-//  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//    let request : NSFetchRequest<Item> = Item.fetchRequest()
-//    //    print(searchBar.text!)
-//    // look for the "title" that "CONTAINS" ...
-//    // %@ will be replaced with - searchBar.text data
-//    // [cd] - makes case/special symbols non-sesitive
-//    let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-//
-//    //sort by title
-//    request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)] // as it expects an array
-//
-//
-//    loadItems(with: request, predicate: predicate)
-//
-//
-//    //    do{
-//    //     itemArray = try context.fetch(request)
-//    //    }catch{
-//    //      print(error)
-//    //    }
-//    //
-//    //    tableView.reloadData()
-//
-//  }
-//
-//  // SearchBar Text Change - listener
-//
-//  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//    if searchBar.text?.count == 0{
-//      loadItems()
-//
-//      DispatchQueue.main.async {
-//              searchBar.resignFirstResponder()
-//      }
-//    }
-//  }
-//
-//}
+
+extension ToDoListViewController: UISearchBarDelegate{
+
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    
+    todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text).sorted(byKeyPath: "title", ascending: true)
+
+  }
+  
+  
+  
+  
+
+  // SearchBar Text Change - listener
+
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchBar.text?.count == 0{
+      loadItems()
+
+      DispatchQueue.main.async {
+              searchBar.resignFirstResponder()
+      }
+    }
+  }
+
+}
 
