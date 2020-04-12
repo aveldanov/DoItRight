@@ -87,8 +87,8 @@ class ToDoListViewController: UITableViewController {
       do{
         try realm.write{
           
-          realm.delete(item)
-//           item.done = !item.done
+//          realm.delete(item) - DELETE OPTION 
+           item.done = !item.done
          }
          
         
