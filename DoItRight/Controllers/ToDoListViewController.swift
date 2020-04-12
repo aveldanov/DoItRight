@@ -126,6 +126,7 @@ class ToDoListViewController: UITableViewController {
             let newItem = Item()
             print(newItem)
              newItem.title = textField.text!
+            newItem.dateCreated = Date()
             currentCategory.items.append(newItem)
           }
         }catch{
@@ -176,7 +177,9 @@ extension ToDoListViewController: UISearchBarDelegate{
 
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     
-    todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text).sorted(byKeyPath: "title", ascending: true)
+    todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
+    
+    tableView.reloadData()
 
   }
   
@@ -184,7 +187,7 @@ extension ToDoListViewController: UISearchBarDelegate{
   
   
 
-  // SearchBar Text Change - listener
+  // SearchBar Text Change to nothing - listener
 
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text?.count == 0{
