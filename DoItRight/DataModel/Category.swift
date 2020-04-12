@@ -10,10 +10,7 @@ import Foundation
 import RealmSwift
 
 class Category: Object {
- @objc dynamic var name:String = ""
-  
+  @objc dynamic var name:String = "" //dynamic - monitor for changes
   let items = List<Item>() //empty array of items - List===Array
-
-  
   
 }
