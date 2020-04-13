@@ -106,6 +106,10 @@ class CategoryViewController: SwipeTableViewController  {
   //MARK: - Delete Section
   
   override func updateModel(at indexPath: IndexPath) {
+    
+    super.updateModel(at: indexPath)
+    
+    
     if let categoryForDeletion = self.categoryArray?[indexPath.row]{
       
       do{

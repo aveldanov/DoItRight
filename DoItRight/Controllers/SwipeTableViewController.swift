@@ -64,7 +64,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
 //MARK: - Update Data Model
   func updateModel(at indexPath: IndexPath){
     
-    
+    print("Cell deleted from Super Class")
     
   }
   

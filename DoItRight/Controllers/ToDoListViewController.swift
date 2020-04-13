@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: SwipeTableViewController {
   
   //  var itemArray = ["TODO1", "TODO2", "TODO3"]
   
@@ -33,21 +33,6 @@ class ToDoListViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    
-    // Filemager - interface for filesystem
-    
-    
-    //    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-    
-    
-    // retrieve array from "defaults" memory
-    //    if let safeItemArray = defaults.array(forKey: "TodoListArray") as? [Item]{
-    //      itemArray = safeItemArray
-    //    }
-    
-    
-    // FileManager -> initiated request
-    
   }
   //MARK: - TableView DataSource Methods
   
@@ -57,14 +42,9 @@ class ToDoListViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
-    //    Not doing it because it creates a new cell when the exisitng cell is out of screen view
-    //    let cell = UITableViewCell(style: .default, reuseIdentifier: "ToDoItemCell")
-    
+
     let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-    // indexPath contains SectionNumber and RowNumber
-    //    print(indexPath.row)
-    
+
     
     if let item = todoItems?[indexPath.row]{
       cell.textLabel?.text = item.title
