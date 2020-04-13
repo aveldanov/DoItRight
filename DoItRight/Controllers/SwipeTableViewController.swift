@@ -21,6 +21,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     tableView.rowHeight = 80
     tableView.separatorStyle = .none
 
+
   }
   
   

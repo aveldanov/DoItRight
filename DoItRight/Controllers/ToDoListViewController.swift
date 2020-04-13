@@ -15,6 +15,9 @@ class ToDoListViewController: SwipeTableViewController {
   var todoItems: Results<Item>?
   let realm = try! Realm()
   
+  @IBOutlet weak var searchBar: UISearchBar!
+  
+  
   var selectedCategory: Category?
   {
     // works only if selectedCategory is assigned a value
@@ -29,11 +32,55 @@ class ToDoListViewController: SwipeTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    //    if let colorHex = selectedCategory?.color{
+    //
+    //
+    //      // problem viewDidLoad called before navBar added -> we need viewWillAppear
+    //      guard let navBar = navigationController?.navigationBar else {
+    //        fatalError("No Nav Controller")
+    //      }
+    //
+    //        navigationController?.navigationBar.barTintColor = UIColor(hexString: colorHex)
+    //    }
+    
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    
+    
+    
+    if let colorHex = selectedCategory?.color{
+      
+      title = selectedCategory?.name
+      
+      // problem viewDidLoad called before navBar added -> we need viewWillAppear
+      guard let navBar = navigationController?.navigationBar else {
+        fatalError("No Nav Controller")
+      }
+      
+      if let navBarColor = UIColor(hexString: colorHex) {
+        //Original setting: navBar.barTintColor = UIColor(hexString: colourHex)
+        //Revised for iOS13 w/ Prefer Large Titles setting:
+        navBar.backgroundColor = navBarColor
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        searchBar.barTintColor = navBarColor
+   
+      }
+      
+    }
+    
+    
+  }
+  
+  
+  
+  
+  
   //MARK: - TableView DataSource Methods
   
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
     return todoItems?.count ?? 1
   }
   
@@ -43,12 +90,15 @@ class ToDoListViewController: SwipeTableViewController {
     if let item = todoItems?[indexPath.row]{
       cell.textLabel?.text = item.title
       
-      if let color = FlatPowderBlue().darken(byPercentage:
+      
+      // OPTIONAL Chaining - the "?" after ".color)?"...if not nil then go ahead
+      if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage:
         CGFloat(indexPath.row) / CGFloat(todoItems!.count)
         ){
-         cell.backgroundColor = color
+        cell.backgroundColor = color
+        cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
       }
-     
+      
       
       // value = condition ? valuetrue : valuefalse
       cell.accessoryType = item.done ? .checkmark : .none

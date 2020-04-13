@@ -31,7 +31,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Todoey" id="Ly6-Hx-6rI">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="gJG-AG-Gzq">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="I1p-dP-Ngm" id="Fg9-uW-s4D"/>
                             </connections>
@@ -78,12 +77,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Items" id="R9l-HS-6uk">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aoo-K1-NSH">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="AIP-Eh-Phf" id="CQn-Zz-7Wo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="Vbg-r2-VjP" id="SJZ-9B-wvR"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="prN-rE-fGt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -94,10 +95,9 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NGs-tA-7y7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OeE-Tg-54v">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="OeE-Tg-54v">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </textAttributes>
