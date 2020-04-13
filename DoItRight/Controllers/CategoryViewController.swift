@@ -35,6 +35,9 @@ class CategoryViewController: SwipeTableViewController  {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
+    // inherit cell from super class (Swipe)
+    
+    let cell = super.tableView(tableView, cellForRowAt: indexPath)
     
     cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet"
     
