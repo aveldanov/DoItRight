@@ -31,7 +31,7 @@ class CategoryViewController: SwipeTableViewController  {
     return categoryArray?.count ?? 1
   }
   
-
+  
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
@@ -74,6 +74,8 @@ class CategoryViewController: SwipeTableViewController  {
   
   
   //MARK: - Data manipulation methods (Save/Load)
+  //MARK: - Save Section
+  
   
   func saveCategories(category:Category){
     // Working with local files
@@ -89,6 +91,7 @@ class CategoryViewController: SwipeTableViewController  {
     
   }
   
+  //MARK: - Load Section
   
   
   func loadCategories(){
@@ -99,6 +102,27 @@ class CategoryViewController: SwipeTableViewController  {
     tableView.reloadData()
     
   }
+  
+  //MARK: - Delete Section
+  
+  override func updateModel(at indexPath: IndexPath) {
+    if let categoryForDeletion = self.categoryArray?[indexPath.row]{
+      
+      do{
+        try self.realm.write{
+          self.realm.delete(categoryForDeletion)
+          
+        }
+      }catch{
+        print("delete row error \(error)")
+      }
+      
+      
+    }
+  }
+  
+  
+  
   
   
   
