@@ -65,6 +65,8 @@ class ToDoListViewController: SwipeTableViewController {
         navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
         searchBar.barTintColor = navBarColor
    
+        searchBar.searchTextField.backgroundColor = .white
+
       }
       
     }
