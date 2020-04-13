@@ -8,4 +8,6 @@ target 'DoItRight' do
   # Pods for DoItRight
   
 pod 'RealmSwift'
+pod 'SwipeCellKit'
+
 end
