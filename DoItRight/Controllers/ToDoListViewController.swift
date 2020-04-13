@@ -11,24 +11,19 @@ import RealmSwift
 
 class ToDoListViewController: SwipeTableViewController {
   
-  //  var itemArray = ["TODO1", "TODO2", "TODO3"]
-  
   var todoItems: Results<Item>?
   let realm = try! Realm()
   
   var selectedCategory: Category?
-  
   {
-
     // works only if selectedCategory is assigned a value
     didSet{
-
       loadItems()
     }
   }
   
   
-
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -42,10 +37,8 @@ class ToDoListViewController: SwipeTableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-
     
+    let cell = super.tableView(tableView, cellForRowAt: indexPath)
     if let item = todoItems?[indexPath.row]{
       cell.textLabel?.text = item.title
       // value = condition ? valuetrue : valuefalse
@@ -62,25 +55,25 @@ class ToDoListViewController: SwipeTableViewController {
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    
     if let item = todoItems?[indexPath.row]{
       do{
         try realm.write{
           
-//          realm.delete(item) - DELETE OPTION
-           item.done = !item.done
-         }
-         
+          //          realm.delete(item)
+          item.done = !item.done
+        }
+        
         
       }catch{
         
         print("Error didSelectAt - done status", error)
       }
- 
+      
     }
     
     tableView.reloadData()
- 
+    
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
@@ -91,7 +84,6 @@ class ToDoListViewController: SwipeTableViewController {
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
     
     var textField = UITextField()
-    
     
     
     let alert = UIAlertController(title: "Add New ToDo Item", message: "", preferredStyle: .alert)
@@ -105,7 +97,7 @@ class ToDoListViewController: SwipeTableViewController {
           try self.realm.write{
             let newItem = Item()
             print(newItem)
-             newItem.title = textField.text!
+            newItem.title = textField.text!
             newItem.dateCreated = Date()
             currentCategory.items.append(newItem)
           }
@@ -113,10 +105,10 @@ class ToDoListViewController: SwipeTableViewController {
           print("Error saving Items: \(error)")
           
         }
-
+        
         
       }
-
+      
       self.tableView.reloadData()
       
     }
@@ -135,15 +127,34 @@ class ToDoListViewController: SwipeTableViewController {
   
   
   
- 
+  
+  //Mark - Model Manipulation Methods
   
   
   func loadItems(){
-
+    
     todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
     
     tableView.reloadData()
-
+    
+  }
+  
+  
+  
+  override func updateModel(at indexPath: IndexPath) {
+    
+    if let item = todoItems?[indexPath.row]{
+      do{
+        try realm.write{
+          realm.delete(item)
+        }
+      }catch{
+        print("Error didSelectAt - done status", error)
+      }
+      
+    }
+    
+    
   }
   
   
@@ -154,30 +165,30 @@ class ToDoListViewController: SwipeTableViewController {
 //MARK: - Search Bar Methods
 
 extension ToDoListViewController: UISearchBarDelegate{
-
+  
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     
     todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
     
     tableView.reloadData()
-
+    
   }
   
   
   
   
-
+  
   // SearchBar Text Change to nothing - listener
-
+  
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text?.count == 0{
       loadItems()
-
+      
       DispatchQueue.main.async {
-              searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
       }
     }
   }
-
+  
 }
 
