@@ -11,6 +11,7 @@ import RealmSwift
 
 class Category: Object {
   @objc dynamic var name:String = "" //dynamic - monitor for changes
+  @objc dynamic var color:String = "" 
   let items = List<Item>() //empty array of items - List===Array
   
 }

@@ -1,5 +1,5 @@
 
 ### TECH:
 DB: CoreData/Realm 4.4.0
-Pods: Realm, SwipeCellKit, Chameleon, SwipeCellKit
+Pods: Realm, SwipeCellKit, Chameleon
 
