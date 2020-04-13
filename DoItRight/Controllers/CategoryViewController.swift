@@ -35,9 +35,7 @@ class CategoryViewController: SwipeTableViewController  {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-//    let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! SwipeTableViewCell
     
-//    cell.delegate = self
     cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet"
     
     return cell
